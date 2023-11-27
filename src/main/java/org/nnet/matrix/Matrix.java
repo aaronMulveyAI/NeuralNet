@@ -5,7 +5,8 @@ import java.util.Arrays;
 public class Matrix {
 
     private static final String NUMBER_FORMAT = "%+12.5f";
-    private int rows, cols;
+    public int rows;
+    public int cols;
     private double[][] matrix;
     public Matrix (int rows, int cols){
         this.cols = cols;
