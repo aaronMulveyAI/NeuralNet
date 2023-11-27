@@ -23,11 +23,6 @@
             <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.haifengl</groupId>
-            <artifactId>smile-nd4j</artifactId>
-            <version>1.5.3</version>
-        </dependency>
     </dependencies>
 
     <properties>
