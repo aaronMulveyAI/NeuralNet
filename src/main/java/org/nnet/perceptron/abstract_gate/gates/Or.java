@@ -3,8 +3,19 @@ package org.nnet.perceptron.abstract_gate.gates;
 import org.nnet.perceptron.perceptron.Neuron;
 import org.nnet.perceptron.abstract_gate.Gate;
 
+/**
+ * OR gate
+ */
 public class Or extends Gate {
+
+    /**
+     * Default constructor
+     */
     public Or(){super(" OR ");}
+    
+    /**
+     * Calls feed forward
+     */
     @Override
     public double evaluate(double p, double q) {
 

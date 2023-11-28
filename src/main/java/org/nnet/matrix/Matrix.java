@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class Matrix {
 
     private static final String NUMBER_FORMAT = "%+12.5f";
+    
     public int rows;
     public int cols;
     private double[][] matrix;

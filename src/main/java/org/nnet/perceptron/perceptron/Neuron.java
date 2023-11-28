@@ -3,6 +3,20 @@ package org.nnet.perceptron.perceptron;
 import org.nnet.perceptron.activation_functions.iActivationFunction;
 
 public class Neuron {
+
+
+    public Neuron(){
+
+    }
+
+    /**
+     * Feed forward method for a single neuron with a single input, single weight and bias  
+     * @param input input vector
+     * @param weight weight vector
+     * @param bias bias value
+     * @param activationFunction activation function to be used
+     * @return output
+     */
     public static double feedForward(
                                         double[]  input,
                                         double[]  weight,
