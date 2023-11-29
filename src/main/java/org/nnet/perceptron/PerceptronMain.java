@@ -22,7 +22,7 @@ public class PerceptronMain {
 
     public static void main(String[] args) {
 
-        iActivationFunction function = new ELU();
+        iActivationFunction function = new Sigmoid();
 
         for (Gates gate : gates) {
             new Perceptron(gate,  function).run(DISCRETE);

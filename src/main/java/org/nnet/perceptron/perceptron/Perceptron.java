@@ -62,8 +62,8 @@ public class Perceptron {
             trueTable[3 - i][1] = i % 2;    /*   (3 % 2 = 1), (2 % 2 = 0), (1 % 2 = 1), (0 % 2 = 0)   */ 
 
             switch (output){
-                case DISCRETE -> trueTable[i][2] = GATE.evaluate(trueTable[i][0], trueTable[i][1]) < 0.5 ? 0 : 1;
-                case CONTINUOS -> trueTable[i][2] = GATE.evaluate(trueTable[i][0], trueTable[i][1]);
+                case DISCRETE -> trueTable[i][2] = GATE.evaluate(trueTable[3 - i][0], trueTable[3 - i][1]) < 0.5 ? 0 : 1;
+                case CONTINUOS -> trueTable[i][2] = GATE.evaluate(trueTable[3 - i][0], trueTable[3 - i][1]);
             }
         }
         printTable(trueTable, GATE.getName());
