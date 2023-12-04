@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import org.nnet.matrix.consumers.iIndexValueConsumer;
 import org.nnet.matrix.producers.*;
 
 /**
@@ -75,7 +76,6 @@ public class Matrix {
         }
     }
     
-
     /**
      * Apply a function to each element of the matrix.
      * @param producer - the function to apply
@@ -90,6 +90,45 @@ public class Matrix {
 
 		return result;
 	}
+
+    /**
+     * Apply a function to each row of the matrix.
+     * @param producer - the function to apply
+     * @return a new matrix with the result of the function applied to each row
+     */
+    public Matrix modify(iRowColProducer producer){
+        
+        int index = 0;
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                matrix[index] = producer.produce(row, col, matrix[index]);
+                index++;
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Apply a function to each row of the matrix.
+     * @param producer - the function to apply
+     * @return a new matrix with the result of the function applied to each row
+     */
+    public Matrix modify(iValueProducer producer){
+        for (int i = 0; i < matrix.length; i++) matrix[i] = producer.produce(matrix[i]);
+        return this;
+    }
+
+    /**
+     * Apply a function to each row of the matrix.
+     * @param producer - the function to apply
+     * @return a new matrix with the result of the function applied to each row
+     */
+    public void forEach(iIndexValueConsumer consumer) {
+        for (int i = 0; i < matrix.length; i++) consumer.consume(i, matrix[i]);
+    }
+
 
     /**
      * Matrix multiplication with another matrix.
@@ -192,6 +231,10 @@ public class Matrix {
     public void setValueOf(int row, int col, double value) {
         this.matrix[row * cols + col] = value;
     }
+
+    public double get(int index) {
+		return matrix[index];
+	}
 
     /**
      * Get the matrix as a one-dimensional array.
