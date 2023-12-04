@@ -69,6 +69,23 @@ public class TestMatrix {
         assertThrows(IllegalArgumentException.class, () -> matrix1.multiply(matrix2));
     }
     
+    @Test 
+    public void testMultiplicationSpeed(){
+        int rows = 1000;
+        int cols = 1000;
+        Matrix matrix1 = new Matrix(rows, cols, (i) -> 1);
+        Matrix matrix2 = new Matrix(rows, cols, (i) -> 1);
+
+        long start = System.currentTimeMillis();
+        matrix1.multiply(matrix2);
+        long end = System.currentTimeMillis();
+        System.out.println("Multiplication took " + (end - start) + " ms");
+
+        start = System.currentTimeMillis();
+        matrix1.multiplyParallel(matrix2);
+        end = System.currentTimeMillis();
+        System.out.println("Multiplication in Parallel took " + (end - start) + " ms");
+    }
 
     @Test
     public void testEqualsTrue(){

@@ -1,6 +1,10 @@
 package org.nnet.matrix;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 import org.nnet.matrix.producers.*;
 
 /**
@@ -97,20 +101,60 @@ public class Matrix {
         Matrix result = new Matrix(this.getRows(), matrix.getCols());
 
         if (this.getCols() != matrix.getRows()) {
-            throw new IllegalArgumentException("Matrix dimensions don't match: " +
-                                               this.getRows() + "x" + 
-                                               this.getCols() +  " cannot be multiplied with " +
-                                               matrix.getRows() + "x" + 
-                                               matrix.getCols());
+            throw new IllegalArgumentException(
+                "Matrix dimensions don't match: " +
+                this.getRows() + "x" + 
+                this.getCols() +  " cannot be multiplied with " +
+                matrix.getRows() + "x" + 
+                matrix.getCols());
         }
 
-    
+        
         for (int row = 0; row < result.getRows(); row++) {
             for (int col = 0; col < result.getCols() ; col++) {
                 result.setValueOf(row, col, multiplyRowCol(this, matrix, row, col));
             }
         }
         return result;
+    }
+
+    /**
+     * Matrix multiplication with another matrix using parallel processing.
+     * @param matrix - the matrix to multiply with
+     * @return a new matrix with the result of the multiplication
+     */
+    public Matrix multiplyParallel(Matrix matrix) {
+        
+        Matrix result = new Matrix(this.getRows(), matrix.getCols());
+
+        if (this.getCols() != matrix.getRows()) {
+            throw new IllegalArgumentException(
+                "Matrix dimensions don't match: " +
+                this.getRows() + "x" + 
+                this.getCols() +  " cannot be multiplied with " +
+                matrix.getRows() + "x" + 
+                matrix.getCols());
+        }
+
+        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+            for (int row = 0; row < result.getRows(); row++) {
+                final int currentRow = row;
+                executor.execute(() -> {
+                    for (int col = 0; col < result.getCols(); col++) {
+                        result.setValueOf(currentRow, col, multiplyRowCol(this, matrix, currentRow, col));
+                    }
+                });
+            }
+
+            executor.shutdown();
+            try {
+                executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return result;
     }
 
     /**
